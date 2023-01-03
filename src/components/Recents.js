@@ -30,7 +30,7 @@ const Recents = (props) => {
             <div className="side-main-content-container">
                 <div className="side-main-content-header">Recent locations</div>
                 <div className="recents-container" >
-                    {props.recentCities.map( (cityName) => <RecentCity city={cityName} key={getCityId(cityName)}/>)}
+                    {props.recentCities.map( (cityName) => <RecentCity recentCities={props.recentCities} city={cityName} key={getCityId(cityName)}/>)}
                 </div>
                 <div className="clear-recents-div">
                     <button className="clear-recents-button" onClick={clearRecentsPanel}>Clear recents</button>

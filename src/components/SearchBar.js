@@ -1,16 +1,21 @@
 import React, { useCallback, useEffect } from "react";
 
+let storageCount = 1;
+let userCity;
 const SearchBar = (props) => {
-    
-    let userCity;
+
+    function setUserCity(newCity) {
+        userCity = newCity;
+    }
+
     //handles search submission
     function searchSubmit(event) {
         event.preventDefault();
         let searchBar = document.querySelector("#searchBar");
         const searchValue = searchBar.value;
-        userCity = searchValue;
-
-        handleWeatherUpdating(searchValue);
+       
+        setUserCity(searchValue);
+        handleWeatherUpdating(searchValue, props.tempMeasure);
 
         saveToLocalStorage(userCity);
         searchBar.blur();
@@ -18,18 +23,22 @@ const SearchBar = (props) => {
     }
 
     function saveToLocalStorage(cityName) {
+        if (props.recentCities) {
+            storageCount = props.recentCities.length + 1;
+        }
         //if city isn't already in local storage then add it
         if (!localStorage.getItem(cityName)) {
-            localStorage.setItem(cityName, 1);
-        }
+            localStorage.setItem(cityName, storageCount);
+            storageCount++;
+        } 
         //add user city to the recents array (changes state)
         props.addRecentCity(cityName);
     }
 
     const updateName = props.updateDisplayName;
     const updateWeather = props.updateWeather;
-    let measure = props.tempMeasure; 
-    const handleWeatherUpdating = useCallback((searchValue) => {
+    const removeCity = props.removeCity;
+    const handleWeatherUpdating = useCallback((searchValue, measure) => {
         //converts city name into coordinates, extracts it into lat and lon then gets the weather
         async function retrieveWeatherData(cityName, units) {
             let latLon;
@@ -39,10 +48,13 @@ const SearchBar = (props) => {
         };
 
         retrieveWeatherData(searchValue, measure).then((weather) => {
+            if (weather === null) {
+                removeCity();
+            }
             updateName(userCity);
             updateWeather(weather);
         });
-    }, [measure, updateName, updateWeather]);
+    }, [updateName, updateWeather]);
 
     //converts a city name into lat and long by calling my lambda function
     async function convertCityToCoordinates(cityName) {
@@ -52,7 +64,7 @@ const SearchBar = (props) => {
      
         let coordObject = await coordinates.json();
         
-        userCity = cityName;
+        setUserCity(cityName);
         return coordObject;
     }
 
@@ -73,7 +85,8 @@ const SearchBar = (props) => {
         //handling the user entering a city that doesn't exist
         if (lat === 0 && lon === 0) {
             weatherObj = null;
-            userCity = "Error";
+            localStorage.removeItem(userCity);
+            setUserCity("Error");
             return weatherObj;
         }
 
@@ -90,7 +103,7 @@ const SearchBar = (props) => {
 
     useEffect(() => {
         if (userCity) {
-            handleWeatherUpdating(userCity);
+            handleWeatherUpdating(userCity, props.tempMeasure);
         }
     }, [props.tempMeasure, handleWeatherUpdating]);
 

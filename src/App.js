@@ -23,6 +23,10 @@ function App() {
     setRecentCities(temp);
   }
 
+  const removeNewestCity = () => {
+    loadFromStorage();
+  }
+
   const clearCities = () => {
     setRecentCities([]);
   }
@@ -33,25 +37,40 @@ function App() {
 
   //load visited cities from local storage
   useEffect( () => {
+    loadFromStorage();
+  },[]);
+
+  const loadFromStorage = () => {
     let items = { ...localStorage };
     let storedCities;
 
     storedCities = Object.keys(items);
     let cityArray = [];
+    let index;
 
     storedCities.forEach(city => {
       if (!recentLocations.includes(city)) {
-        cityArray.push(city);
+        index = localStorage.getItem(city)-1;
+        cityArray[index] = city;
       }
     });
 
+    //swap it so first in the array based on local storage is actually least recent
+    let length = cityArray.length;
+    let tempValue;
+    for (let i = 0; i < (length/2); i++) {
+      tempValue = cityArray[i];
+      cityArray[i] = cityArray[length-1-i];
+      cityArray[length-1-i] = tempValue;
+    }
+
     setAllCities(cityArray);
-  },[]);
+  }
   
   return (
     <div className="body-div">
       <Header clearRecents={clearCities} recentCities={recentLocations} tempMeasure={measurement} changeTempMeasure={setMeasurement} />
-      <OuterContainer addRecentCity={addCity} recentCities={recentLocations} tempMeasure={measurement} />
+      <OuterContainer removeCity={removeNewestCity} addRecentCity={addCity} recentCities={recentLocations} tempMeasure={measurement} />
       <Footer />
     </div>
   );

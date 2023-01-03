@@ -28,7 +28,7 @@ class OuterContainer extends React.Component {
     render() {
         return(
             <div className="outer-container">
-                <SearchBar addRecentCity={this.props.addRecentCity} recentCities={this.props.recentCities} tempMeasure={this.props.tempMeasure} updateWeather={this.updateWeatherObject} updateDisplayName={this.updateDisplayName} />
+                <SearchBar removeCity={this.props.removeCity} addRecentCity={this.props.addRecentCity} recentCities={this.props.recentCities} tempMeasure={this.props.tempMeasure} updateWeather={this.updateWeatherObject} updateDisplayName={this.updateDisplayName} />
                 <WeatherContainer tempMeasure={this.props.tempMeasure} weatherObj={this.state.weatherObject} cityName={this.state.cityDisplayName} />
             </div>
         );

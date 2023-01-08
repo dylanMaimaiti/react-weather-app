@@ -1,8 +1,11 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 let storageCount = 1;
 let userCity;
 const SearchBar = (props) => {
+
+    const [gettingData, setGettingData] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     function setUserCity(newCity) {
         userCity = newCity;
@@ -13,7 +16,8 @@ const SearchBar = (props) => {
         event.preventDefault();
         let searchBar = document.querySelector("#searchBar");
         const searchValue = searchBar.value;
-       
+        setGettingData(true);
+        setDataLoaded(false);
         setUserCity(searchValue);
         handleWeatherUpdating(searchValue, props.tempMeasure);
 
@@ -48,11 +52,13 @@ const SearchBar = (props) => {
         };
 
         retrieveWeatherData(searchValue, measure).then((weather) => {
+            setDataLoaded(true);
             if (weather === null) {
                 removeCity();
             }
             updateName(userCity);
             updateWeather(weather);
+            setGettingData(false);
         });
     }, [updateName, updateWeather]);
 
@@ -120,6 +126,12 @@ const SearchBar = (props) => {
                     </svg>
                 </button>
             </form>
+            {!dataLoaded && gettingData ? 
+                <div className="spinner">
+                    <span>Loading...</span>
+                    <div className="half-spinner"></div>
+                </div>
+            : null}
         </div>
     );
 };

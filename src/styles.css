@@ -4,7 +4,6 @@ body {
 }
 
 
-
 .body-div {
   display: flex;
   flex-direction: column;
@@ -12,8 +11,6 @@ body {
   align-items: center;
   margin: 0px;
   padding: 0px;
-
-  padding-bottom: 200px;
   min-width: 100vh;
   min-height: 100vh;
   background: rgb(2, 0, 36);
@@ -21,13 +18,14 @@ body {
 }
 
 .outer-container {
-  /* height: 800px; */
+  
   width: 700px;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr;
   align-items: center;
   justify-items: center;
+  margin-bottom: 100px;
 }
 
 .top-bar {
@@ -475,4 +473,49 @@ input:checked+.slider:before {
   padding-top: 10px;
   font-size: 16px;
   font-weight: 500;
+}
+
+
+/* Loading spinner CSS, source: https://hackernoon.com/step-by-step-guide-to-create-3-different-types-of-loading-screens-in-react-lu2633nd */
+
+.spinner {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.spinner span {
+  font-size: 2rem;
+  animation: fade 1s linear 0s infinite;
+  padding-right: 1rem;
+}
+
+.half-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #03adfc;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.5s linear 0s infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

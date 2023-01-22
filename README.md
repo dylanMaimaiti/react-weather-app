@@ -6,13 +6,13 @@
 ## Demo
 
 ### Searched for a city upper view
-![Searching for a city](./public/weatherAppReadMeDemo1.PNG)
+![Searching for a city](./public/weatherAppReadMeDemo1.png)
 
 ### Searched for a city lower view
-![Searching for a city lower view](./public/weatherAppReadMeDemo2.PNG)
+![Searching for a city lower view](./public/weatherAppReadMeDemo2.png)
 
 ### Searching with recent locations open
-![Searching with recent locations open](./public/weatherAppReadMeSidebar.PNG)
+![Searching with recent locations open](./public/weatherAppReadMeSidebar.png)
 
 ## Features
 - Has a search bar that accepts city/location names

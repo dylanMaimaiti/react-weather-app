@@ -1,6 +1,7 @@
 # React Weather App
 - This is a weather app made with React, HTML5, and CSS for the front end
 - It makes calls to lambda functions that I built to retrieve the weather data which acts as a serverless backend
+- It also displays corresponding SVG's depending on the weather
 - Live site https://production.d29mx314v559x5.amplifyapp.com/
 
 ## Demo
